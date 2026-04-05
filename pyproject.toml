@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autonomous-coding-tool"
+version = "0.1.0"
+description = "Autonomous coding assistant with LangGraph, local Ollama, and efficient memory management"
+authors = [{ name = "Bogomil Filipov", email = "bogomil.filipov@proton.me" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=1.0.0", # persistent short-term memory
+    "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-ollama>=0.2.0",
+    "chromadb>=0.5.0",
+    "sentence-transformers>=2.7.0", # embeddings (or use Ollama embeddings)
+    # Utilities
+    "tiktoken>=0.7.0", # token counting for trimming
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "black>=24.0",
+    "ruff>=0.5.0",
+]
+redis = ["redis>=5.0", "langgraph-checkpoint-redis>=1.0.0"]
+mongodb = ["pymongo>=4.7", "langgraph-store-mongodb>=0.1.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 125
+target-version = ['py310']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
